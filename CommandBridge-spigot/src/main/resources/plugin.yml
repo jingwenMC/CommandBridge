@@ -4,3 +4,6 @@ main: cn.southplex.commandbridge.CommandBridgeSpigot
 authors: [ jingwenMC ]
 description: Send bukkit command to bungee
 website: www.jingwenmc.top
+commands:
+  sendcmd:
+    description: Send cmd to bungee, console only

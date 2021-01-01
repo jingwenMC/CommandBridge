@@ -1,19 +1,40 @@
 package cn.southplex.commandbridge;
 
 import cn.southplex.commandbridge.enums.ServerType;
+import com.google.common.io.ByteArrayDataInput;
+import com.google.common.io.ByteStreams;
+import net.md_5.bungee.api.event.PluginMessageEvent;
+import net.md_5.bungee.api.plugin.Listener;
 import net.md_5.bungee.api.plugin.Plugin;
+import net.md_5.bungee.event.EventHandler;
 
-public final class CommandBridgeBungee extends Plugin {
+import java.util.logging.Level;
+
+public final class CommandBridgeBungee extends Plugin implements Listener {
 
     @Override
     public void onEnable() {
         new LogUtil(getProxy().getLogger());
         new ServerStatus(ServerType.BUNGEE);
-        // Plugin startup logic
+        LogUtil.log(Level.INFO,"Setting Up...");
+        getProxy().getPluginManager().registerListener(this,this);
+        LogUtil.log(Level.INFO,"Done! Plugin By: jingwenMC");
     }
 
     @Override
     public void onDisable() {
-        // Plugin shutdown logic
+        LogUtil.log(Level.INFO,"Shutting Down...");
+        LogUtil.log(Level.INFO,"Goodbye!");
+    }
+
+    @EventHandler
+    public void onPluginMessage(PluginMessageEvent event) {
+        if(event.getTag().equals("BungeeCord")) {
+            ByteArrayDataInput in = ByteStreams.newDataInput(event.getData());
+            String subchannel = in.readUTF();
+            if(subchannel.equals("commandbridge")) {
+                getProxy().getPluginManager().dispatchCommand(getProxy().getConsole(),in.readUTF());
+            }
+        }
     }
 }

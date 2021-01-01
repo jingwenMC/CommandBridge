@@ -7,7 +7,7 @@
     <parent>
         <groupId>cn.southplex</groupId>
         <artifactId>CommandBridge</artifactId>
-        <version>1.0-ALPHA</version>
+        <version>1.0-BETA</version>
     </parent>
 
     <artifactId>CommandBridge-common</artifactId>
@@ -37,5 +37,6 @@
             <artifactId>bungeecord-chat</artifactId>
             <version>1.15-SNAPSHOT</version>
         </dependency>
+
     </dependencies>
 </project>

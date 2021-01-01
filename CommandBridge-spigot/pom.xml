@@ -9,7 +9,7 @@
     <parent>
         <groupId>cn.southplex</groupId>
         <artifactId>CommandBridge</artifactId>
-        <version>1.0-ALPHA</version>
+        <version>1.0-BETA</version>
     </parent>
 
     <artifactId>CommandBridge-bukkit</artifactId>
