@@ -12,7 +12,7 @@
         <version>1.0-BETA</version>
     </parent>
 
-    <artifactId>CommandBridge-bukkit</artifactId>
+    <artifactId>CommandBridge-spigot</artifactId>
     <packaging>jar</packaging>
 
     <name>CommandBridge Bukkit</name>

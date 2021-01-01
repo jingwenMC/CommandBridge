@@ -36,6 +36,7 @@
             <groupId>net.md-5</groupId>
             <artifactId>bungeecord-chat</artifactId>
             <version>1.15-SNAPSHOT</version>
+            <scope>provided</scope>
         </dependency>
 
     </dependencies>
