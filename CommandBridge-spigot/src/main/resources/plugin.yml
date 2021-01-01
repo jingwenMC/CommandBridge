@@ -1,0 +1,6 @@
+name: CommandBridge
+version: ${project.version}
+main: cn.southplex.commandbridge.CommandBridgeSpigot
+authors: [ jingwenMC ]
+description: Send bukkit command to bungee
+website: www.jingwenmc.top
