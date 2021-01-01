@@ -6,6 +6,7 @@ public final class CommandBridgeBungee extends Plugin {
 
     @Override
     public void onEnable() {
+
         // Plugin startup logic
     }
 

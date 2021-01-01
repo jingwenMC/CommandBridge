@@ -1,3 +1,5 @@
+package cn.southplex.commandbridge;
+
 import net.md_5.bungee.api.ChatColor;
 
 import java.util.logging.Level;

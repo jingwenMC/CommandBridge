@@ -1,4 +1,6 @@
-import enums.ServerType;
+package cn.southplex.commandbridge;
+
+import cn.southplex.commandbridge.enums.ServerType;
 
 public class ServerStatus {
     static ServerType serverType;
