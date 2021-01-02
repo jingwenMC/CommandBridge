@@ -2,6 +2,9 @@ package cn.southplex.commandbridge.commands;
 
 import cn.southplex.commandbridge.CommandBridgeSpigot;
 import cn.southplex.commandbridge.LogUtil;
+import cn.southplex.commandbridge.ServerStatus;
+import cn.southplex.commandbridge.enums.RunningMode;
+import cn.southplex.commandbridge.manager.PluginMessageManager;
 import com.google.common.collect.Iterables;
 import com.google.common.io.ByteArrayDataOutput;
 import com.google.common.io.ByteStreams;
@@ -19,18 +22,14 @@ public class SendCmd implements CommandExecutor {
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if(sender instanceof Player)return true;
-        if(args==null)sender.sendMessage(ChatColor.RED+"Error: Null Command");
-        ByteArrayDataOutput out = ByteStreams.newDataOutput();
-        out.writeUTF("commandbridge");
-        String outs = null;
-        for (String a : args)
-            if(outs == null)
-            outs = a;
-            else outs = outs+" "+a;
-        out.writeUTF(outs);
-        Player player = Iterables.getFirst(Bukkit.getOnlinePlayers(), null);
-        if(player==null) LogUtil.log(Level.WARNING,"No player is online to send a plugin message");
-        else player.sendPluginMessage(CommandBridgeSpigot.getInstance(),"BungeeCord",out.toByteArray());
+        if(ServerStatus.getRunningMode() == RunningMode.PLUGIN_MESSAGE) {
+            String[] out = new String[0];
+            if(args.length>1)
+            for(int i=1;i<args.length;i++) {
+                out[i-1] = args[i];
+            }
+            PluginMessageManager.sendMessage(sender,args[0],out);
+        }
         return true;
     }
 }

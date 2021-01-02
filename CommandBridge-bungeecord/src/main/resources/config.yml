@@ -1,0 +1,10 @@
+# CommandBridge Config File
+
+# This field is to recognize the config version
+# DO NOT EDIT AT ANY TIME
+version: '1b'
+
+# This is the password field
+# You need to set to a different value for security reason
+# You need it to send a command, see https://github.com/SouthplexStudio/CommandBridge/wiki/FAQ:-How-to-send-a-command-to-BungeeCord
+password: 'EDIT_ME'
