@@ -23,7 +23,7 @@ public class SendCmd implements CommandExecutor {
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if(sender instanceof Player)return true;
         if(ServerStatus.getRunningMode() == RunningMode.PLUGIN_MESSAGE) {
-            String[] out = new String[0];
+            String[] out = new String[args.length-1];
             if(args.length>1)
             for(int i=1;i<args.length;i++) {
                 out[i-1] = args[i];
