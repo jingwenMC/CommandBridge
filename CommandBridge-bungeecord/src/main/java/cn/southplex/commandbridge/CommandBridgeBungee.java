@@ -37,11 +37,11 @@ public final class CommandBridgeBungee extends Plugin implements Listener {
         if(event.getTag().equals("BungeeCord")) {
             ByteArrayDataInput in = ByteStreams.newDataInput(event.getData());
             String subchannel = in.readUTF();
+            if(!subchannel.equals("commandbridge"))return;
             String password = in.readUTF();
+            System.out.println(password+"   "+password.equals(configUtil.getPassword()));
             if(!password.equals(configUtil.getPassword()))return;
-            if(subchannel.equals("commandbridge")) {
-                getProxy().getPluginManager().dispatchCommand(getProxy().getConsole(),in.readUTF());
-            }
+            getProxy().getPluginManager().dispatchCommand(getProxy().getConsole(),in.readUTF());
         }
     }
 

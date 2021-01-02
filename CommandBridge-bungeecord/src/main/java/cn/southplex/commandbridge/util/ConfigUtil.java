@@ -23,6 +23,12 @@ public class ConfigUtil {
             } catch (IOException e) {
                 e.printStackTrace();
             }
+        } else {
+            try {
+                configuration = ConfigurationProvider.getProvider(YamlConfiguration.class).load(new File(plugin.getDataFolder(), "config.yml"));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
     public String getPassword() {
