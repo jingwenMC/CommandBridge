@@ -1,5 +1,6 @@
 package cn.southplex.commandbridge;
 
+import cn.southplex.commandbridge.enums.RunningMode;
 import cn.southplex.commandbridge.enums.ServerType;
 import cn.southplex.commandbridge.util.ConfigUtil;
 import com.google.common.io.ByteArrayDataInput;
@@ -18,8 +19,8 @@ public final class CommandBridgeBungee extends Plugin implements Listener {
 
     @Override
     public void onEnable() {
-        new LogUtil(getProxy().getLogger());
-        new ServerStatus(ServerType.BUNGEE);
+        LogUtil.setLogger(getLogger());
+        ServerStatus.setServerStatus(ServerType.BUNGEE);
         configUtil = new ConfigUtil(this);
         LogUtil.log(Level.INFO,"Setting Up...");
         getProxy().getPluginManager().registerListener(this,this);
@@ -32,6 +33,7 @@ public final class CommandBridgeBungee extends Plugin implements Listener {
         LogUtil.log(Level.INFO,"Goodbye!");
     }
 
+    @Deprecated
     @EventHandler
     public void onPluginMessage(PluginMessageEvent event) {
         if(event.getTag().equals("BungeeCord")) {

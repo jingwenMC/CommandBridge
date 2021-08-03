@@ -1,0 +1,9 @@
+#Running Modes:
+#- PluginMessage (Outdated,will be REMOVED in 2.0)
+#- MessageQueue (Recommended,using built-in ActiveMQ)
+#- Redis
+#NOTE: PluginMessage Mode only support Bukkit->Bungee.
+running-mode: PluginMessage
+
+#Allows player (with permission "commandbridge.bukkit.send",or OP) to execute command in game
+enable-player-command: true

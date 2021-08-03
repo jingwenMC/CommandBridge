@@ -7,3 +7,7 @@ website: www.jingwenmc.top
 commands:
   sendcmd:
     description: Send cmd to bungee, console only
+permissions:
+  commandbridge.bukkit.send:
+    description: Allow player send command to bungeecord
+    default: op
