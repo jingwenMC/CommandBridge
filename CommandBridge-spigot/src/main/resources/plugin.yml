@@ -4,10 +4,12 @@ main: cn.southplex.commandbridge.CommandBridgeSpigot
 authors: [ jingwenMC ]
 description: Send bukkit command to bungee
 website: www.jingwenmc.top
+softdepend:
+  - MQEasy
 commands:
   sendcmd:
     description: Send cmd to bungee, console only
 permissions:
-  commandbridge.bukkit.send:
+  commandbridge.spigot.send:
     description: Allow player send command to bungeecord
     default: op

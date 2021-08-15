@@ -14,14 +14,15 @@ public class SendCmd implements CommandExecutor {
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if(sender instanceof Player)
-            if(CommandBridgeSpigot.getPluginConfig().getBoolean("enable-player-command"))
+            if(!(CommandBridgeSpigot.getPluginConfig().getBoolean("enable-player-command") && sender.hasPermission("commandbridge.spigot.send")))
                 return true;
         if(args[0]==null)sender.sendMessage(ChatColor.RED+"Error: Null Command");
         CommandBridgeSpigot.checkRunningMode();
         if(ServerStatus.getRunningMode() == RunningMode.PLUGIN_MESSAGE) {
-            String[] out = new String[args.length-1];
-            if(args.length>1)System.arraycopy(args, 1, out, 0, args.length - 1);
-            CommandBridgeSpigot.getRunningModeItem().onCmd(args[0],out);
+            CommandBridgeSpigot.getRunningModeItem().onCmd(args);
+        }
+        if(ServerStatus.getRunningMode() == RunningMode.MESSAGE_QUEUE) {
+            CommandBridgeSpigot.getRunningModeItem().onCmd(args);
         }
         return true;
     }

@@ -30,6 +30,7 @@ public final class CommandBridgeSpigot extends JavaPlugin {
         ServerStatus.setServerStatus(ServerType.SPIGOT);
         LogUtil.log(Level.INFO,"Setting Up...");
         saveDefaultConfig();
+        reloadConfig();
         checkRunningMode();
         LogUtil.log(Level.INFO,"Registering Command...");
         getCommand("sendcmd").setExecutor(new SendCmd());
@@ -37,42 +38,49 @@ public final class CommandBridgeSpigot extends JavaPlugin {
     }
 
     public static void checkRunningMode() {
-        switch (Objects.requireNonNull(getPluginConfig().getString("running-mode"))) {
-            case "PluginMessage":
-                if(CommandBridgeSpigot.getRunningModeItem() instanceof PluginMessageMode)break;
-                CommandBridgeSpigot.getRunningModeItem().onDisable();
-                RunningModeItem runningModeItem = new PluginMessageMode();
-                runningModeItem.onEnable();
-                CommandBridgeSpigot.setRunningModeItem(runningModeItem);
-                ServerStatus.setRunningMode(RunningMode.PLUGIN_MESSAGE);
-            case "MessageQueue":
-                if(CommandBridgeSpigot.getRunningModeItem() instanceof MessageQueueMode)break;
-                CommandBridgeSpigot.getRunningModeItem().onDisable();
-                RunningModeItem runningModeItem2 = new MessageQueueMode();
-                runningModeItem2.onEnable();
-                CommandBridgeSpigot.setRunningModeItem(runningModeItem2);
-                ServerStatus.setRunningMode(RunningMode.MESSAGE_QUEUE);
-            case "Redis":
+        String runningMode = Objects.requireNonNull(getPluginConfig().getString("running-mode"));
+
+        if(runningMode.equalsIgnoreCase("PluginMessage")) {
+            if (CommandBridgeSpigot.getRunningModeItem() instanceof PluginMessageMode) return;
+            CommandBridgeSpigot.getRunningModeItem().onDisable();
+            RunningModeItem runningModeItem = new PluginMessageMode();
+            runningModeItem.onEnable();
+            CommandBridgeSpigot.setRunningModeItem(runningModeItem);
+            ServerStatus.setRunningMode(RunningMode.PLUGIN_MESSAGE);
+        }
+
+        else if(runningMode.equalsIgnoreCase("MessageQueue")) {
+            if (CommandBridgeSpigot.getRunningModeItem() instanceof MessageQueueMode) return;
+            CommandBridgeSpigot.getRunningModeItem().onDisable();
+            RunningModeItem runningModeItem2 = new MessageQueueMode();
+            runningModeItem2.onEnable();
+            CommandBridgeSpigot.setRunningModeItem(runningModeItem2);
+            ServerStatus.setRunningMode(RunningMode.MESSAGE_QUEUE);
+        }
+                /*Not supported right now
+            case 78837083:
                 if(CommandBridgeSpigot.getRunningModeItem() instanceof RedisMode)break;
                 CommandBridgeSpigot.getRunningModeItem().onDisable();
                 RunningModeItem runningModeItem3 = new RedisMode();
                 runningModeItem3.onEnable();
                 CommandBridgeSpigot.setRunningModeItem(runningModeItem3);
                 ServerStatus.setRunningMode(RunningMode.REDIS);
-            default:
-                LogUtil.log(Level.WARNING,"Did not found a valid running mode, please check your config.");
-                LogUtil.log(Level.WARNING,"Using PluginMessage Mode instead.");
-                if(CommandBridgeSpigot.getRunningModeItem() instanceof MessageQueueMode)break;
-                CommandBridgeSpigot.getRunningModeItem().onDisable();
-                RunningModeItem runningModeItem4 = new MessageQueueMode();
-                runningModeItem4.onEnable();
-                CommandBridgeSpigot.setRunningModeItem(runningModeItem4);
-                ServerStatus.setRunningMode(RunningMode.MESSAGE_QUEUE);
+                 */
+            else {
+            LogUtil.log(Level.WARNING, "Did not found a valid running mode, please check your config.");
+            LogUtil.log(Level.WARNING, "Using PluginMessage Mode instead.");
+            if (CommandBridgeSpigot.getRunningModeItem() instanceof MessageQueueMode) return;
+            CommandBridgeSpigot.getRunningModeItem().onDisable();
+            RunningModeItem runningModeItem4 = new MessageQueueMode();
+            runningModeItem4.onEnable();
+            CommandBridgeSpigot.setRunningModeItem(runningModeItem4);
+            ServerStatus.setRunningMode(RunningMode.MESSAGE_QUEUE);
         }
     }
 
     @Override
     public void onDisable() {
+        CommandBridgeSpigot.getRunningModeItem().onDisable();
         LogUtil.log(Level.INFO,"Shutting Down...");
         LogUtil.log(Level.INFO,"Goodbye!");
     }

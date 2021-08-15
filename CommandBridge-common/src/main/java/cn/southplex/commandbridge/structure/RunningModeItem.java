@@ -5,5 +5,7 @@ public interface RunningModeItem {
 
     void onDisable();
 
-    void onCmd(String password, String... commandLine);
+    void onCmd(String... commandLine);
+
+    void onCmdOtherServer(String to, String... commandLine);
 }

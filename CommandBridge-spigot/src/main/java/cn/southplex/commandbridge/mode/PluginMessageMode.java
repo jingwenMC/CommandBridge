@@ -31,10 +31,10 @@ public class PluginMessageMode implements RunningModeItem {
     }
 
     @Override
-    public void onCmd(String password, String... commandLine) {
+    public void onCmd(String... commandLine) {
         ByteArrayDataOutput out = ByteStreams.newDataOutput();
         out.writeUTF("commandbridge");
-        out.writeUTF(password);
+        out.writeUTF(CommandBridgeSpigot.getPluginConfig().getString("password"));
         String outs = null;
         for (String a : commandLine)
             if(outs == null)
@@ -44,5 +44,10 @@ public class PluginMessageMode implements RunningModeItem {
         Player player = Iterables.getFirst(Bukkit.getOnlinePlayers(), null);
         if(player==null) LogUtil.log(Level.WARNING,"No player is online to send a plugin message");
         else player.sendPluginMessage(CommandBridgeSpigot.getInstance(),"BungeeCord",out.toByteArray());
+    }
+
+    @Override
+    public void onCmdOtherServer(String to, String... commandLine) {
+        //Not supported
     }
 }

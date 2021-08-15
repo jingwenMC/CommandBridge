@@ -1,54 +1,102 @@
 package cn.southplex.commandbridge;
 
+import cn.southplex.commandbridge.bungee.mqeasy.MQEasyListener;
 import cn.southplex.commandbridge.enums.RunningMode;
 import cn.southplex.commandbridge.enums.ServerType;
+import cn.southplex.commandbridge.mode.MessageQueueMode;
+import cn.southplex.commandbridge.mode.NotsetMode;
+import cn.southplex.commandbridge.mode.PluginMessageMode;
+import cn.southplex.commandbridge.structure.RunningModeItem;
 import cn.southplex.commandbridge.util.ConfigUtil;
-import com.google.common.io.ByteArrayDataInput;
-import com.google.common.io.ByteStreams;
-import net.md_5.bungee.api.event.PluginMessageEvent;
-import net.md_5.bungee.api.plugin.Listener;
+import lombok.Getter;
+import lombok.Setter;
 import net.md_5.bungee.api.plugin.Plugin;
 import net.md_5.bungee.config.Configuration;
-import net.md_5.bungee.event.EventHandler;
+import top.jingwenmc.mqeasy.api.MQEasyApi;
+import top.jingwenmc.mqeasy.api.exception.MQEasyNotLoadException;
+import top.jingwenmc.mqeasy.api.exception.PluginAlreadyRegisteredException;
 
+import java.util.Objects;
 import java.util.logging.Level;
 
-public final class CommandBridgeBungee extends Plugin implements Listener {
+public final class CommandBridgeBungee extends Plugin {
 
+    @Setter
+    @Getter
+    private static RunningModeItem runningModeItem = new NotsetMode();
+
+    @Getter
     ConfigUtil configUtil = null;
+
+    @Getter
+    private static CommandBridgeBungee instance;
+
+    private MQEasyListener listener = new MQEasyListener();
 
     @Override
     public void onEnable() {
+        instance=this;
         LogUtil.setLogger(getLogger());
         ServerStatus.setServerStatus(ServerType.BUNGEE);
         configUtil = new ConfigUtil(this);
         LogUtil.log(Level.INFO,"Setting Up...");
-        getProxy().getPluginManager().registerListener(this,this);
+        try {
+            MQEasyApi.registerPlugin(listener);
+        } catch (MQEasyNotLoadException | PluginAlreadyRegisteredException e) {
+            e.printStackTrace();
+        }
         LogUtil.log(Level.INFO,"Done! Plugin By: jingwenMC");
     }
 
     @Override
     public void onDisable() {
+        CommandBridgeBungee.getRunningModeItem().onDisable();
         LogUtil.log(Level.INFO,"Shutting Down...");
         LogUtil.log(Level.INFO,"Goodbye!");
-    }
-
-    @Deprecated
-    @EventHandler
-    public void onPluginMessage(PluginMessageEvent event) {
-        if(event.getTag().equals("BungeeCord")) {
-            ByteArrayDataInput in = ByteStreams.newDataInput(event.getData());
-            String subchannel = in.readUTF();
-            if(!subchannel.equals("commandbridge"))return;
-            String password = in.readUTF();
-            System.out.println(password+"   "+password.equals(configUtil.getPassword()));
-            if(!password.equals(configUtil.getPassword()))return;
-            getProxy().getPluginManager().dispatchCommand(getProxy().getConsole(),in.readUTF());
-        }
     }
 
     public Configuration getConfig() {
         return configUtil.getConfig();
     }
 
+    public static void checkRunningMode() {
+        String runningMode = Objects.requireNonNull(getInstance().getConfig().getString("running-mode"));
+
+        if(runningMode.equalsIgnoreCase("PluginMessage")) {
+            if (CommandBridgeBungee.getRunningModeItem() instanceof PluginMessageMode) return;
+            CommandBridgeBungee.getRunningModeItem().onDisable();
+            RunningModeItem runningModeItem = new PluginMessageMode();
+            runningModeItem.onEnable();
+            CommandBridgeBungee.setRunningModeItem(runningModeItem);
+            ServerStatus.setRunningMode(RunningMode.PLUGIN_MESSAGE);
+        }
+
+        else if(runningMode.equalsIgnoreCase("MessageQueue")) {
+            if (CommandBridgeBungee.getRunningModeItem() instanceof MessageQueueMode) return;
+            CommandBridgeBungee.getRunningModeItem().onDisable();
+            RunningModeItem runningModeItem2 = new MessageQueueMode();
+            runningModeItem2.onEnable();
+            CommandBridgeBungee.setRunningModeItem(runningModeItem2);
+            ServerStatus.setRunningMode(RunningMode.MESSAGE_QUEUE);
+        }
+                /*Not supported right now
+            case 78837083:
+                if(CommandBridgeSpigot.getRunningModeItem() instanceof RedisMode)break;
+                CommandBridgeSpigot.getRunningModeItem().onDisable();
+                RunningModeItem runningModeItem3 = new RedisMode();
+                runningModeItem3.onEnable();
+                CommandBridgeSpigot.setRunningModeItem(runningModeItem3);
+                ServerStatus.setRunningMode(RunningMode.REDIS);
+                 */
+        else {
+            LogUtil.log(Level.WARNING, "Did not found a valid running mode, please check your config.");
+            LogUtil.log(Level.WARNING, "Using PluginMessage Mode instead.");
+            if (CommandBridgeBungee.getRunningModeItem() instanceof MessageQueueMode) return;
+            CommandBridgeBungee.getRunningModeItem().onDisable();
+            RunningModeItem runningModeItem4 = new MessageQueueMode();
+            runningModeItem4.onEnable();
+            CommandBridgeBungee.setRunningModeItem(runningModeItem4);
+            ServerStatus.setRunningMode(RunningMode.MESSAGE_QUEUE);
+        }
+    }
 }
