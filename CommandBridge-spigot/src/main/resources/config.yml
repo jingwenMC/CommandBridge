@@ -16,4 +16,4 @@ running-mode: PluginMessage
 password: EDIT_ME
 
 #Allows player (with permission "commandbridge.bukkit.send",or OP) to execute command in game
-enable-player-command: true
+enable-player-command: false

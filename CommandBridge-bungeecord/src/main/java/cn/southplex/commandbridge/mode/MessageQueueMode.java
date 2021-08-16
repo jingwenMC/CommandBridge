@@ -37,16 +37,16 @@ public class MessageQueueMode implements RunningModeItem {
 
     @Override
     public void onCmd(String... commandLine) {
-        try {
-            plugin.getApi().sendMessageToServerNoReturn("bungee",
-                    MQEasyJsonUtil.parseObject(new CommandItem(CommandBridgeBungee.getInstance().getConfigUtil().getPassword(),commandLine)));
-        } catch (MQEasyNotLoadException | JsonProcessingException e) {
-            e.printStackTrace();
-        }
+        //No Use
     }
 
     @Override
     public void onCmdOtherServer(String to, String... commandLine) {
-        //todo
+        try {
+            plugin.getApi().sendMessageToServerNoReturn(to, MQEasyJsonUtil.parseObject(
+                    new CommandItem(CommandBridgeBungee.getInstance().getConfigUtil().getPassword(),commandLine)));
+        } catch (MQEasyNotLoadException | JsonProcessingException e) {
+            e.printStackTrace();
+        }
     }
 }

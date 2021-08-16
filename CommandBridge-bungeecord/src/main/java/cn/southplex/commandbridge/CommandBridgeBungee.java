@@ -1,6 +1,7 @@
 package cn.southplex.commandbridge;
 
 import cn.southplex.commandbridge.bungee.mqeasy.MQEasyListener;
+import cn.southplex.commandbridge.command.SendCmdToServer;
 import cn.southplex.commandbridge.enums.RunningMode;
 import cn.southplex.commandbridge.enums.ServerType;
 import cn.southplex.commandbridge.mode.MessageQueueMode;
@@ -40,11 +41,8 @@ public final class CommandBridgeBungee extends Plugin {
         ServerStatus.setServerStatus(ServerType.BUNGEE);
         configUtil = new ConfigUtil(this);
         LogUtil.log(Level.INFO,"Setting Up...");
-        try {
-            MQEasyApi.registerPlugin(listener);
-        } catch (MQEasyNotLoadException | PluginAlreadyRegisteredException e) {
-            e.printStackTrace();
-        }
+        getProxy().getPluginManager().registerCommand(this,new SendCmdToServer());
+        checkRunningMode();
         LogUtil.log(Level.INFO,"Done! Plugin By: jingwenMC");
     }
 

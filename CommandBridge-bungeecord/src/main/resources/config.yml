@@ -14,3 +14,6 @@ password: EDIT_ME
 #- MessageQueue (Recommended,using external plugin MQEasy)
 #NOTE: PluginMessage Mode only support Bukkit->Bungee.
 running-mode: PluginMessage
+
+#Allows player (with permission "commandbridge.bukkit.send",or OP) to execute command in game
+enable-player-command: false

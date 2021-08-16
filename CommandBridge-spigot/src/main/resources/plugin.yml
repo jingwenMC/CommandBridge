@@ -8,7 +8,12 @@ softdepend:
   - MQEasy
 commands:
   sendcmd:
-    description: Send cmd to bungee, console only
+    description: Send cmd to bungee, permission required.
+  sendcmdtoserver:
+    description: Send cmd to another server, permission required.
+    aliases:
+      - scts
+      - sctsbukkit
 permissions:
   commandbridge.spigot.send:
     description: Allow player send command to bungeecord

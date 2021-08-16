@@ -1,10 +1,6 @@
 # CommandBridge
 Send Spigot command to BungeeCord!
 
-## Under Rewrite
-This plugin is now under rewrite, there will be a huge change after the rewrite.  
-Next Release: 2020/01/25 est.  
-
 ## Introduction
 This is my first plugin published on SpigotMC. Hope you can enjoy it!
 

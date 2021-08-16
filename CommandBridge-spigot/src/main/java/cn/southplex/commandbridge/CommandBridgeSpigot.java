@@ -1,6 +1,7 @@
 package cn.southplex.commandbridge;
 
 import cn.southplex.commandbridge.commands.SendCmd;
+import cn.southplex.commandbridge.commands.SendCmdToServer;
 import cn.southplex.commandbridge.enums.RunningMode;
 import cn.southplex.commandbridge.enums.ServerType;
 import cn.southplex.commandbridge.mode.MessageQueueMode;
@@ -34,6 +35,7 @@ public final class CommandBridgeSpigot extends JavaPlugin {
         checkRunningMode();
         LogUtil.log(Level.INFO,"Registering Command...");
         getCommand("sendcmd").setExecutor(new SendCmd());
+        getCommand("sendcmdtoserver").setExecutor(new SendCmdToServer());
         LogUtil.log(Level.INFO,"Done! Plugin By: jingwenMC");
     }
 
