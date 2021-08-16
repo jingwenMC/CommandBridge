@@ -14,6 +14,7 @@ public class SendCmdToServer extends Command {
     }
 
     @Override
+    @SuppressWarnings("deprecation")
     public void execute(CommandSender sender, String[] args) {
         if(sender instanceof ProxiedPlayer)
             if(CommandBridgeBungee.getInstance().getConfig().getBoolean("enable-player-command")) {
