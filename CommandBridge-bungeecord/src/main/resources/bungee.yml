@@ -2,5 +2,4 @@ name: CommandBridge
 version: ${project.version}
 main: cn.southplex.commandbridge.CommandBridgeBungee
 description: Send bukkit command to bungee
-softdepends:
-  - MQEasy
+softdepends: [MQEasy]

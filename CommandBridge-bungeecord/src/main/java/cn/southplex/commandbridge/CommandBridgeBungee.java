@@ -1,6 +1,5 @@
 package cn.southplex.commandbridge;
 
-import cn.southplex.commandbridge.bungee.mqeasy.MQEasyListener;
 import cn.southplex.commandbridge.command.SendCmdToServer;
 import cn.southplex.commandbridge.enums.RunningMode;
 import cn.southplex.commandbridge.enums.ServerType;
@@ -13,9 +12,6 @@ import lombok.Getter;
 import lombok.Setter;
 import net.md_5.bungee.api.plugin.Plugin;
 import net.md_5.bungee.config.Configuration;
-import top.jingwenmc.mqeasy.api.MQEasyApi;
-import top.jingwenmc.mqeasy.api.exception.MQEasyNotLoadException;
-import top.jingwenmc.mqeasy.api.exception.PluginAlreadyRegisteredException;
 
 import java.util.Objects;
 import java.util.logging.Level;
@@ -31,8 +27,6 @@ public final class CommandBridgeBungee extends Plugin {
 
     @Getter
     private static CommandBridgeBungee instance;
-
-    private MQEasyListener listener = new MQEasyListener();
 
     @Override
     public void onEnable() {

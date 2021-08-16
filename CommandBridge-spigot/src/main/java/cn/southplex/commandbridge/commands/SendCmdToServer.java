@@ -7,17 +7,12 @@ import net.md_5.bungee.api.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
 
 public class SendCmdToServer implements CommandExecutor {
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-        if(sender instanceof Player)
-            if(CommandBridgeSpigot.getInstance().getConfig().getBoolean("enable-player-command")) {
-                sender.sendMessage(ChatColor.RED+"Error: No Permission or player command not enabled.");
-                return true;
-            }
+        if (SendCmd.checkPerm(sender)) return true;
         if(args.length<=1)sender.sendMessage(ChatColor.RED+"Error: Wrong Command Usage.");
         CommandBridgeSpigot.checkRunningMode();
         if(ServerStatus.getRunningMode() == RunningMode.MESSAGE_QUEUE) {

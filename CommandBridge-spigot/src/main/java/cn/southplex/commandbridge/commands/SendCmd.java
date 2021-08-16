@@ -13,11 +13,7 @@ public class SendCmd implements CommandExecutor {
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-        if(sender instanceof Player)
-            if(!(CommandBridgeSpigot.getPluginConfig().getBoolean("enable-player-command") && sender.hasPermission("commandbridge.spigot.send"))) {
-                sender.sendMessage(net.md_5.bungee.api.ChatColor.RED+"Error: No Permission or player command not enabled.");
-                return true;
-            }
+        if (checkPerm(sender)) return true;
         if(args[0]==null)sender.sendMessage(ChatColor.RED+"Error: Wrong Command Usage.");
         CommandBridgeSpigot.checkRunningMode();
         if(ServerStatus.getRunningMode() == RunningMode.PLUGIN_MESSAGE) {
@@ -27,5 +23,20 @@ public class SendCmd implements CommandExecutor {
             CommandBridgeSpigot.getRunningModeItem().onCmd(args);
         }
         return true;
+    }
+
+    public static boolean checkPerm(CommandSender sender) {
+        if(sender instanceof Player) {
+            if (CommandBridgeSpigot.getPluginConfig().getBoolean("enable-player-command")) {
+                if (!sender.hasPermission("commandbridge.spigot.send")) {
+                    sender.sendMessage(ChatColor.RED + "Error: No Permission or player command not enabled.");
+                    return true;
+                }
+            } else {
+                sender.sendMessage(ChatColor.RED + "Error: No Permission or player command not enabled.");
+                return true;
+            }
+        }
+        return false;
     }
 }

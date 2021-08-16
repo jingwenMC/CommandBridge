@@ -10,17 +10,23 @@ import net.md_5.bungee.api.plugin.Command;
 
 public class SendCmdToServer extends Command {
     public SendCmdToServer() {
-        super("sendcmdtoserver","commandbridge.spigot.send","scts","sctsbungee");
+        super("sendcmdtoserver","","scts","sctsbungee");
     }
 
     @Override
     @SuppressWarnings("deprecation")
     public void execute(CommandSender sender, String[] args) {
-        if(sender instanceof ProxiedPlayer)
-            if(CommandBridgeBungee.getInstance().getConfig().getBoolean("enable-player-command")) {
-                sender.sendMessage(ChatColor.RED+"[BC]Error: No Permission or player command not enabled.");
+        if(sender instanceof ProxiedPlayer) {
+            if (CommandBridgeBungee.getInstance().getConfig().getBoolean("enable-player-command")) {
+                if(sender.hasPermission("commandbridge.spigot.send")) {
+                    sender.sendMessage(ChatColor.RED + "[BC]Error: No Permission or player command not enabled.");
+                    return;
+                }
+            } else {
+                sender.sendMessage(net.md_5.bungee.api.ChatColor.RED + "Error: No Permission or player command not enabled.");
                 return;
             }
+        }
         if(args.length<=1)sender.sendMessage(ChatColor.RED+"[BC]Error: Wrong Command Usage.");
         CommandBridgeBungee.checkRunningMode();
         if(ServerStatus.getRunningMode() == RunningMode.MESSAGE_QUEUE) {
