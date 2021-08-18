@@ -71,12 +71,12 @@ public final class CommandBridgeSpigot extends JavaPlugin {
             else {
             LogUtil.log(Level.WARNING, "Did not found a valid running mode, please check your config.");
             LogUtil.log(Level.WARNING, "Using PluginMessage Mode instead.");
-            if (CommandBridgeSpigot.getRunningModeItem() instanceof MessageQueueMode) return;
+            if (CommandBridgeSpigot.getRunningModeItem() instanceof PluginMessageMode) return;
             CommandBridgeSpigot.getRunningModeItem().onDisable();
-            RunningModeItem runningModeItem4 = new MessageQueueMode();
+            RunningModeItem runningModeItem4 = new PluginMessageMode();
             runningModeItem4.onEnable();
             CommandBridgeSpigot.setRunningModeItem(runningModeItem4);
-            ServerStatus.setRunningMode(RunningMode.MESSAGE_QUEUE);
+            ServerStatus.setRunningMode(RunningMode.PLUGIN_MESSAGE);
         }
     }
 

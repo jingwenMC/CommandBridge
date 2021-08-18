@@ -83,12 +83,12 @@ public final class CommandBridgeBungee extends Plugin {
         else {
             LogUtil.log(Level.WARNING, "Did not found a valid running mode, please check your config.");
             LogUtil.log(Level.WARNING, "Using PluginMessage Mode instead.");
-            if (CommandBridgeBungee.getRunningModeItem() instanceof MessageQueueMode) return;
+            if (CommandBridgeBungee.getRunningModeItem() instanceof PluginMessageMode) return;
             CommandBridgeBungee.getRunningModeItem().onDisable();
-            RunningModeItem runningModeItem4 = new MessageQueueMode();
+            RunningModeItem runningModeItem4 = new PluginMessageMode();
             runningModeItem4.onEnable();
             CommandBridgeBungee.setRunningModeItem(runningModeItem4);
-            ServerStatus.setRunningMode(RunningMode.MESSAGE_QUEUE);
+            ServerStatus.setRunningMode(RunningMode.PLUGIN_MESSAGE);
         }
     }
 }
