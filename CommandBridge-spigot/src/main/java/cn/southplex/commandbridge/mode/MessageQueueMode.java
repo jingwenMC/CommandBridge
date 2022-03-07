@@ -76,7 +76,8 @@ public class MessageQueueMode extends MQEasyPlugin implements RunningModeItem {
                         s1.append(ss).append(" ");
                     }
                     MQEasyCommon.debug("Command Line:"+s1);
-                    Bukkit.dispatchCommand(CommandBridgeSpigot.getInstance().getServer().getConsoleSender(), s1.toString());
+                    Bukkit.getScheduler().runTask(CommandBridgeSpigot.getInstance(),
+                            () ->Bukkit.dispatchCommand(CommandBridgeSpigot.getInstance().getServer().getConsoleSender(), s1.toString()));
                 }
             } catch (IOException e) {
                 e.printStackTrace();
