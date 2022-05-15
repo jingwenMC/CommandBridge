@@ -5,7 +5,7 @@ import cn.southplex.commandbridge.enums.ServerType;
 
 public class ServerStatus {
     static ServerType serverType;
-    static RunningMode runningMode = RunningMode.PLUGIN_MESSAGE;
+    static RunningMode runningMode = RunningMode.MESSAGE_QUEUE;
     public static void setServerStatus(ServerType serverType) {
         ServerStatus.serverType = serverType;
     }
