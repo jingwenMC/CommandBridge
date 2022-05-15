@@ -38,9 +38,9 @@ public class MessageQueueMode extends MQEasyPlugin implements RunningModeItem {
     }
 
     @Override
-    public void onCmd(String... commandLine) {
+    public void onCmd(String dest,String... commandLine) {
         try {
-            this.getApi().sendMessageToServerNoReturn("bungee",
+            this.getApi().sendMessageToBungeePlayerNoReturn(dest,
                     MQEasyJsonUtil.parseObject(new CommandItem(CommandBridgeSpigot.getPluginConfig().getString("password"),commandLine)));
         } catch (MQEasyNotLoadException | JsonProcessingException e) {
             e.printStackTrace();
@@ -67,21 +67,29 @@ public class MessageQueueMode extends MQEasyPlugin implements RunningModeItem {
         MQEasyCommon.debug("CommonMessage Get:"+commonMessage);
         CommandItem commandItem;
         if(messageType.equals(MessageType.SERVER_NO_RETURN)) {
-            try {
-                commandItem = MQEasyJsonUtil.parseJSON(commonMessage.getBody(),CommandItem.class);
-                MQEasyCommon.debug("Body Get:"+commonMessage);
-                if(commandItem.getPassword().equals(CommandBridgeSpigot.getPluginConfig().getString("password"))) {
-                    StringBuilder s1 = new StringBuilder();
-                    for(String ss : commandItem.getCommandLine()) {
-                        s1.append(ss).append(" ");
-                    }
-                    MQEasyCommon.debug("Command Line:"+s1);
-                    Bukkit.getScheduler().runTask(CommandBridgeSpigot.getInstance(),
-                            () ->Bukkit.dispatchCommand(CommandBridgeSpigot.getInstance().getServer().getConsoleSender(), s1.toString()));
+            processCommandMessage(commonMessage);
+        }
+        if(messageType.equals(MessageType.BUKKIT_PLAYER_NO_RETURN)) {
+            processCommandMessage(commonMessage);
+        }
+    }
+
+    public void processCommandMessage(CommonMessage<String> commonMessage) {
+        CommandItem commandItem;
+        try {
+            commandItem = MQEasyJsonUtil.parseJSON(commonMessage.getBody(), CommandItem.class);
+            MQEasyCommon.debug("Body Get:"+commonMessage);
+            if(commandItem.getPassword().equals(CommandBridgeSpigot.getPluginConfig().getString("password"))) {
+                StringBuilder s1 = new StringBuilder();
+                for(String ss : commandItem.getCommandLine()) {
+                    s1.append(ss).append(" ");
                 }
-            } catch (IOException e) {
-                e.printStackTrace();
+                MQEasyCommon.debug("Command Line:"+s1);
+                Bukkit.getScheduler().runTask(CommandBridgeSpigot.getInstance(),
+                        () ->Bukkit.dispatchCommand(CommandBridgeSpigot.getInstance().getServer().getConsoleSender(), s1.toString()));
             }
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 

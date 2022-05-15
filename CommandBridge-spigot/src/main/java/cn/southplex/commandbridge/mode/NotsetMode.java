@@ -17,7 +17,7 @@ public class NotsetMode implements RunningModeItem {
     }
 
     @Override
-    public void onCmd(String... commandLine) {
+    public void onCmd(String dest,String... commandLine) {
         LogUtil.log(Level.SEVERE,"RUNNING MODE NOT SET");
     }
 

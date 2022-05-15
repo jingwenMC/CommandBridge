@@ -14,7 +14,7 @@ public class RedisMode implements RunningModeItem {
     }
 
     @Override
-    public void onCmd(String... commandLine) {
+    public void onCmd(String dest,String... commandLine) {
 
     }
 

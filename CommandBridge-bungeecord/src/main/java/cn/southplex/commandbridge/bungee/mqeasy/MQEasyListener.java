@@ -50,23 +50,30 @@ public class MQEasyListener extends MQEasyPlugin {
     @Override
     public void onReceiveNoReturn(MessageType messageType, String s, CommonMessage<String> commonMessage) {
         MQEasyCommon.debug("CommonMessage Get:"+commonMessage);
-        CommandItem commandItem;
         if(messageType.equals(MessageType.SERVER_NO_RETURN)) {
-            try {
-                commandItem = MQEasyJsonUtil.parseJSON(commonMessage.getBody(),CommandItem.class);
-                MQEasyCommon.debug("Body Get:"+commonMessage);
-                if(commandItem.getPassword().equals(CommandBridgeBungee.getInstance().getConfigUtil().getPassword())) {
-                    StringBuilder s1 = new StringBuilder();
-                    for(String ss : commandItem.getCommandLine()) {
-                        s1.append(ss).append(" ");
-                    }
-                    MQEasyCommon.debug("Command Line:"+s1);
-                    CommandBridgeBungee.getInstance().getProxy().getPluginManager()
-                            .dispatchCommand(CommandBridgeBungee.getInstance().getProxy().getConsole(), s1.toString());
+            processCommandMessage(commonMessage);
+        }
+        if(messageType.equals(MessageType.BUNGEE_PLAYER_NO_RETURN)) {
+            processCommandMessage(commonMessage);
+        }
+    }
+
+    public void processCommandMessage(CommonMessage<String> commonMessage) {
+        CommandItem commandItem;
+        try {
+            commandItem = MQEasyJsonUtil.parseJSON(commonMessage.getBody(), CommandItem.class);
+            MQEasyCommon.debug("Body Get:"+commonMessage);
+            if(commandItem.getPassword().equals(CommandBridgeBungee.getInstance().getConfigUtil().getPassword())) {
+                StringBuilder s1 = new StringBuilder();
+                for(String ss : commandItem.getCommandLine()) {
+                    s1.append(ss).append(" ");
                 }
-            } catch (IOException e) {
-                e.printStackTrace();
+                MQEasyCommon.debug("Command Line:"+s1);
+                CommandBridgeBungee.getInstance().getProxy().getPluginManager()
+                        .dispatchCommand(CommandBridgeBungee.getInstance().getProxy().getConsole(), s1.toString());
             }
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 

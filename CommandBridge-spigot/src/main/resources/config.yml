@@ -2,7 +2,7 @@
 
 # This field is to recognize the config version
 # DO NOT EDIT AT ANY TIME
-version: 1c
+version: 1d
 
 # This is the password field
 # You need to set to a different value for security reason
@@ -10,11 +10,9 @@ version: 1c
 password: EDIT_ME
 
 #Running Modes:
-#- PluginMessage (Outdated,will be REMOVED in 2.0)
 #- MessageQueue (Recommended,using external plugin MQEasy)
 #MQEasy Installation: https://github.com/jingwenMC/MQEasy/wiki/Installation
-#NOTE: PluginMessage Mode only support Bukkit->Bungee.
-running-mode: PluginMessage
+running-mode: MessageQueue
 
 #Allows player (with permission "commandbridge.bukkit.send",or OP) to execute command in game
 enable-player-command: false

@@ -5,7 +5,6 @@ import cn.southplex.commandbridge.enums.RunningMode;
 import cn.southplex.commandbridge.enums.ServerType;
 import cn.southplex.commandbridge.mode.MessageQueueMode;
 import cn.southplex.commandbridge.mode.NotsetMode;
-import cn.southplex.commandbridge.mode.PluginMessageMode;
 import cn.southplex.commandbridge.structure.RunningModeItem;
 import cn.southplex.commandbridge.util.ConfigUtil;
 import lombok.Getter;
@@ -54,16 +53,7 @@ public final class CommandBridgeBungee extends Plugin {
     public static void checkRunningMode() {
         String runningMode = Objects.requireNonNull(getInstance().getConfig().getString("running-mode"));
 
-        if(runningMode.equalsIgnoreCase("PluginMessage")) {
-            if (CommandBridgeBungee.getRunningModeItem() instanceof PluginMessageMode) return;
-            CommandBridgeBungee.getRunningModeItem().onDisable();
-            RunningModeItem runningModeItem = new PluginMessageMode();
-            runningModeItem.onEnable();
-            CommandBridgeBungee.setRunningModeItem(runningModeItem);
-            ServerStatus.setRunningMode(RunningMode.PLUGIN_MESSAGE);
-        }
-
-        else if(runningMode.equalsIgnoreCase("MessageQueue")) {
+        if(runningMode.equalsIgnoreCase("MessageQueue")) {
             if (CommandBridgeBungee.getRunningModeItem() instanceof MessageQueueMode) return;
             CommandBridgeBungee.getRunningModeItem().onDisable();
             RunningModeItem runningModeItem2 = new MessageQueueMode();
@@ -82,13 +72,7 @@ public final class CommandBridgeBungee extends Plugin {
                  */
         else {
             LogUtil.log(Level.WARNING, "Did not found a valid running mode, please check your config.");
-            LogUtil.log(Level.WARNING, "Using PluginMessage Mode instead.");
-            if (CommandBridgeBungee.getRunningModeItem() instanceof PluginMessageMode) return;
-            CommandBridgeBungee.getRunningModeItem().onDisable();
-            RunningModeItem runningModeItem4 = new PluginMessageMode();
-            runningModeItem4.onEnable();
-            CommandBridgeBungee.setRunningModeItem(runningModeItem4);
-            ServerStatus.setRunningMode(RunningMode.PLUGIN_MESSAGE);
+            LogUtil.log(Level.WARNING, "The plugin won't work right now.");
         }
     }
 }

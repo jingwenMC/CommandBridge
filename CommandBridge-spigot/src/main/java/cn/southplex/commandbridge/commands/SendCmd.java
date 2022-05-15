@@ -13,19 +13,20 @@ public class SendCmd implements CommandExecutor {
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-        if (checkPerm(sender)) return true;
-        if(args[0]==null)sender.sendMessage(ChatColor.RED+"Error: Wrong Command Usage.");
+        if (needRejectNoPerm(sender)) return true;
+        if(args[0]==null)sender.sendMessage(ChatColor.RED + "Error: Wrong Command Usage.");
+        if(args[1]==null)sender.sendMessage(ChatColor.RED+"Error: Wrong Command Usage.");
+        String dest = args[0];
+        String[] out = new String[args.length-1];
+        System.arraycopy(args, 1, out, 0, args.length - 1);
         CommandBridgeSpigot.checkRunningMode();
-        if(ServerStatus.getRunningMode() == RunningMode.PLUGIN_MESSAGE) {
-            CommandBridgeSpigot.getRunningModeItem().onCmd(args);
-        }
         if(ServerStatus.getRunningMode() == RunningMode.MESSAGE_QUEUE) {
-            CommandBridgeSpigot.getRunningModeItem().onCmd(args);
+            CommandBridgeSpigot.getRunningModeItem().onCmd(dest,out);
         }
         return true;
     }
 
-    public static boolean checkPerm(CommandSender sender) {
+    public static boolean needRejectNoPerm(CommandSender sender) {
         if(sender instanceof Player) {
             if (CommandBridgeSpigot.getPluginConfig().getBoolean("enable-player-command")) {
                 if (!sender.hasPermission("commandbridge.spigot.send")) {

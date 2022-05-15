@@ -12,7 +12,7 @@ public class SendCmdToServer implements CommandExecutor {
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
-        if (SendCmd.checkPerm(sender)) return true;
+        if (SendCmd.needRejectNoPerm(sender)) return true;
         if(args.length<=1)sender.sendMessage(ChatColor.RED+"Error: Wrong Command Usage.");
         CommandBridgeSpigot.checkRunningMode();
         if(ServerStatus.getRunningMode() == RunningMode.MESSAGE_QUEUE) {

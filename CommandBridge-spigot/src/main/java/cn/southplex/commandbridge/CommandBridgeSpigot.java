@@ -6,7 +6,6 @@ import cn.southplex.commandbridge.enums.RunningMode;
 import cn.southplex.commandbridge.enums.ServerType;
 import cn.southplex.commandbridge.mode.MessageQueueMode;
 import cn.southplex.commandbridge.mode.NotsetMode;
-import cn.southplex.commandbridge.mode.PluginMessageMode;
 import cn.southplex.commandbridge.mode.RedisMode;
 import cn.southplex.commandbridge.structure.RunningModeItem;
 import lombok.Getter;
@@ -42,16 +41,7 @@ public final class CommandBridgeSpigot extends JavaPlugin {
     public static void checkRunningMode() {
         String runningMode = Objects.requireNonNull(getPluginConfig().getString("running-mode"));
 
-        if(runningMode.equalsIgnoreCase("PluginMessage")) {
-            if (CommandBridgeSpigot.getRunningModeItem() instanceof PluginMessageMode) return;
-            CommandBridgeSpigot.getRunningModeItem().onDisable();
-            RunningModeItem runningModeItem = new PluginMessageMode();
-            runningModeItem.onEnable();
-            CommandBridgeSpigot.setRunningModeItem(runningModeItem);
-            ServerStatus.setRunningMode(RunningMode.PLUGIN_MESSAGE);
-        }
-
-        else if(runningMode.equalsIgnoreCase("MessageQueue")) {
+        if(runningMode.equalsIgnoreCase("MessageQueue")) {
             if (CommandBridgeSpigot.getRunningModeItem() instanceof MessageQueueMode) return;
             CommandBridgeSpigot.getRunningModeItem().onDisable();
             RunningModeItem runningModeItem2 = new MessageQueueMode();
@@ -70,13 +60,7 @@ public final class CommandBridgeSpigot extends JavaPlugin {
                  */
             else {
             LogUtil.log(Level.WARNING, "Did not found a valid running mode, please check your config.");
-            LogUtil.log(Level.WARNING, "Using PluginMessage Mode instead.");
-            if (CommandBridgeSpigot.getRunningModeItem() instanceof PluginMessageMode) return;
-            CommandBridgeSpigot.getRunningModeItem().onDisable();
-            RunningModeItem runningModeItem4 = new PluginMessageMode();
-            runningModeItem4.onEnable();
-            CommandBridgeSpigot.setRunningModeItem(runningModeItem4);
-            ServerStatus.setRunningMode(RunningMode.PLUGIN_MESSAGE);
+            LogUtil.log(Level.WARNING, "The plugin won't work right now.");
         }
     }
 

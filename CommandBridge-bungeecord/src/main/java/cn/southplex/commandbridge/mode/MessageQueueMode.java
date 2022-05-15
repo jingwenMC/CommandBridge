@@ -16,7 +16,7 @@ import java.util.logging.Level;
 public class MessageQueueMode implements RunningModeItem {
     private boolean loaded = false;
 
-    private MQEasyPlugin plugin = new MQEasyListener();
+    private final MQEasyPlugin plugin = new MQEasyListener();
 
     @Override
     public void onEnable() {
@@ -36,8 +36,13 @@ public class MessageQueueMode implements RunningModeItem {
     }
 
     @Override
-    public void onCmd(String... commandLine) {
-        //No Use
+    public void onCmd(String dest,String... commandLine) {
+        try {
+            plugin.getApi().sendMessageToBukkitPlayerNoReturn(dest, MQEasyJsonUtil.parseObject(
+                    new CommandItem(CommandBridgeBungee.getInstance().getConfigUtil().getPassword(),commandLine)));
+        } catch (MQEasyNotLoadException | JsonProcessingException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
