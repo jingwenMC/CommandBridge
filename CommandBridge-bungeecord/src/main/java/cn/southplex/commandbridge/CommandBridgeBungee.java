@@ -1,5 +1,6 @@
 package cn.southplex.commandbridge;
 
+import cn.southplex.commandbridge.command.SendCmdToPlayer;
 import cn.southplex.commandbridge.command.SendCmdToServer;
 import cn.southplex.commandbridge.enums.RunningMode;
 import cn.southplex.commandbridge.enums.ServerType;
@@ -35,6 +36,7 @@ public final class CommandBridgeBungee extends Plugin {
         configUtil = new ConfigUtil(this);
         LogUtil.log(Level.INFO,"Setting Up...");
         getProxy().getPluginManager().registerCommand(this,new SendCmdToServer());
+        getProxy().getPluginManager().registerCommand(this,new SendCmdToPlayer());
         checkRunningMode();
         LogUtil.log(Level.INFO,"Done! Plugin By: jingwenMC");
     }
