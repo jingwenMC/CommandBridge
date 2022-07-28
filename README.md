@@ -6,7 +6,7 @@ This is my first plugin published on SpigotMC. Hope you can enjoy it!
 
 This plugin allows you to use a single command to send to a BungeeCord instance.
 
-Also, you can send a command from BungeeCord to Spigot, or even Spigot to Spigot!(Since v1.2, see https://github.com/SouthplexStudio/CommandBridge/wiki/FAQ:-How-to-send-a-command-to-other-server)
+Also, you can send a command from BungeeCord to Spigot, or even Spigot to Spigot!(Since v1.2, see https://github.com/AriaCraftMC/CommandBridge/wiki/FAQ:-How-to-send-a-command-to-other-server)
 
 __Example:__
 You have 2 servers:a BungeeCord server and a Spigot server, installed CommandBridge - BungeeCord and CommandBridge - Spigot.
